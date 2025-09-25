@@ -1,10 +1,9 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import AddPost from "../../components/AddPost";
 
 export default function AddPostScreen() {
   return (
-    <View>
-      <Text>Add Post</Text>
-    </View>
+      <AddPost />
   );
 }

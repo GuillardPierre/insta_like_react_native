@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   favorites: [],
@@ -9,10 +9,13 @@ const favoriteSlice = createSlice({
   initialState,
   reducers: {
     addFavorite: (state, action) => {
-      state.favorites.push(action.payload)
+      const exists = state.favorites.find(favorite => favorite.itemId === action.payload.itemId);
+      if (!exists) {
+        state.favorites.push(action.payload);
+      }
     },
     removeFavorite: (state, action) => {
-      state.favorites = state.favorites.filter(favorite => favorite.id !== action.payload)
+      state.favorites = state.favorites.filter(favorite => favorite.itemId !== action.payload.itemId)
     },
   },
 })

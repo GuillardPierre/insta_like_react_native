@@ -1,6 +1,6 @@
 import profile from "@/assets/json/profile.json";
 import users from "@/assets/json/users.json";
-import Feed from "@/components/Feed";
+import PersonalFeed from "@/components/PersonalFeed";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 import React from "react";
@@ -42,7 +42,7 @@ export default function ProfilesScreen() {
           <Text style={styles.statsSpan}>{myProfile.followsNumber}</Text>
         </View>
       </View>
-      <Feed />
+      <PersonalFeed />
     </View>
   );
 }

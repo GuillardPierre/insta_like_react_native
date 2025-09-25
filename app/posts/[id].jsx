@@ -21,7 +21,8 @@ export default function PostsScreen() {
   const myLikes = useSelector((state) => state.favorites.favorites);
 
   const handleFavoriteToggle = () => {
-    if (myLikes.includes(post)) {
+    const isLiked = myLikes.find(like => like.itemId === post.itemId);
+    if (isLiked) {
       dispatch(removeFavorite(post));
     } else {
       dispatch(addFavorite(post));
@@ -45,13 +46,16 @@ export default function PostsScreen() {
           <Text style={styles.infoText}>{Math.floor(Math.random() * 100)}</Text>
         </View>
       </View>
-      <Pressable style={styles.button} onPress={handleFavoriteToggle}>
-        <Feather
-          name="heart"
-          size={34}
-          color={myLikes.includes(post) ? "red" : "black"}
-        />
-      </Pressable>
+      <View style={styles.iconsContainer}>
+        <Pressable style={styles.button} onPress={handleFavoriteToggle}>
+          <Feather
+            name="heart"
+            size={34}
+            color={myLikes.find(like => like.itemId === post.itemId) ? "red" : "black"}
+          />
+        </Pressable>
+        <Feather name="bookmark" size={34} color="black" />
+      </View>
     </View>
   );
 }
@@ -94,8 +98,16 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
   },
-  button: {
+  iconsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     alignSelf: "center",
     marginTop: 10,
+    paddingHorizontal: 20,
+    width: 120,
+  },
+  button: {
+    // Pas besoin de styles spéciaux, le bouton est maintenant dans le conteneur
   },
 });
