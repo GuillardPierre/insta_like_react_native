@@ -1,13 +1,19 @@
 import { router } from "expo-router";
 import { Image, Pressable, ScrollView, StyleSheet } from "react-native";
-import feed from "../assets/json/feed.json";
+import { useSelector } from "react-redux";
 import users from "../assets/json/users.json";
 import PhotoInfo from "./PhotoInfo";
 
 export default function Feed() {
+  const posts = useSelector((state) => state.posts.posts);
+
+  const orderedPosts = [...posts].sort((a, b) => b.itemId - a.itemId);
+
+  console.log(orderedPosts);
+
   return (
     <ScrollView style={styles.container}>
-      {feed.map((item) => (
+      {orderedPosts.map((item) => (
         <Pressable
           onPress={() => router.push(`/posts/${item.itemId}`)}
           style={styles.container}

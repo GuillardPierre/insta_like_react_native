@@ -11,23 +11,31 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import posts from "@/assets/json/feed.json";
-
 export default function PostsScreen() {
   const { id } = useLocalSearchParams();
+  const posts = useSelector((state) => state.posts.posts);
   const post = posts.find((post) => post.itemId === Number(id));
 
   const dispatch = useDispatch();
   const myLikes = useSelector((state) => state.favorites.favorites);
 
   const handleFavoriteToggle = () => {
-    const isLiked = myLikes.find(like => like.itemId === post.itemId);
+    if (!post) return;
+    const isLiked = myLikes.find((like) => like.itemId === post.itemId);
     if (isLiked) {
       dispatch(removeFavorite(post));
     } else {
       dispatch(addFavorite(post));
     }
   };
+
+  if (!post) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.errorText}>Post non trouvé</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -51,7 +59,11 @@ export default function PostsScreen() {
           <Feather
             name="heart"
             size={34}
-            color={myLikes.find(like => like.itemId === post.itemId) ? "red" : "black"}
+            color={
+              myLikes.find((like) => like.itemId === post.itemId)
+                ? "red"
+                : "black"
+            }
           />
         </Pressable>
         <Feather name="bookmark" size={34} color="black" />
@@ -109,5 +121,11 @@ const styles = StyleSheet.create({
   },
   button: {
     // Pas besoin de styles spéciaux, le bouton est maintenant dans le conteneur
+  },
+  errorText: {
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 50,
+    color: "#666",
   },
 });
